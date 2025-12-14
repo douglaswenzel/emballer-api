@@ -1,5 +1,4 @@
-// config/config.js
-require('dotenv').config(); // Carrega o seu arquivo .env
+require('dotenv').config();
 
 module.exports = {
   development: {
@@ -10,10 +9,11 @@ module.exports = {
     port: process.env.DB_PORT,
     dialect: 'postgres',
     dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
     },
+    use_env_variable: 'DATABASE_URL'
   },
 };
