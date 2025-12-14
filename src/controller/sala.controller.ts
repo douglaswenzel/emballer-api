@@ -1,13 +1,15 @@
-const db = require('../../models');
+import { Request, Response } from 'express';
+import db from '../models';
 
-const Sala = db.Sala;
+const Sala: any = db.Sala;
+const Andar: any = db.Andar;
 
 class SalaController {
-    async listarSalas(req, res) {
+    public async listarSalas(req: Request, res: Response): Promise<Response> {
         try {
             const salas = await Sala.findAll({
                 include: [{
-                    model: db.Andar,
+                    model: Andar,
                     as: 'andar',
                     attributes: ['numero_andar']
                 }],
@@ -15,7 +17,7 @@ class SalaController {
                 order: [['identificacao_completa', 'ASC']]
             });
             return res.status(200).json(salas);
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
             return res.status(500).json({ 
                 message: "Erro ao buscar salas.", 
@@ -25,4 +27,4 @@ class SalaController {
     }
 }
 
-module.exports = new SalaController();
+export default new SalaController();
