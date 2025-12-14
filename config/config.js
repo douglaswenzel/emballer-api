@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config();
 
 const config = {
   development: { 
@@ -8,7 +8,18 @@ const config = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
-    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    pool: {
+      max: 5,        
+      min: 0,        
+      acquire: 30000, 
+      idle: 10000    
+    },
     use_env_variable: 'DATABASE_URL' 
   },
   
@@ -21,7 +32,13 @@ const config = {
         rejectUnauthorized: false
       }
     },
-    logging: false
+    logging: false,
+    pool: {
+      max: 5,        
+      min: 0,        
+      acquire: 30000, 
+      idle: 10000    
+    }
   }
 };
 

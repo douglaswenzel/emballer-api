@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import 'dotenv/config'; 
 import { Sequelize, Dialect } from 'sequelize';
 
 const { DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD, DB_PORT } = process.env;
@@ -19,7 +19,13 @@ const sequelize = new Sequelize(
                 rejectUnauthorized: false
             }
         },
-        logging: false
+        logging: false,
+        pool: {
+            max: 5,        
+            min: 0,        
+            acquire: 30000, 
+            idle: 10000     
+        }
     }
 );
 
