@@ -17,14 +17,16 @@ const sequelize = new Sequelize(
             ssl: {
                 require: true,
                 rejectUnauthorized: false
-            }
+            },
+            keepAlive: true,        
+            connectTimeout: 60000   
         },
         logging: false,
         pool: {
-            max: 5,        
+            max: 10,
             min: 0,        
-            acquire: 30000, 
-            idle: 10000     
+            acquire: 30000,
+            idle: 30000
         }
     }
 );
