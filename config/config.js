@@ -1,12 +1,19 @@
-require('dotenv').config();
+require('dotenv').config(); 
 
-module.exports = {
-  development: {
+const config = {
+  development: { 
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
+    dialect: 'postgres',
+    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+    use_env_variable: 'DATABASE_URL' 
+  },
+  
+  production: {
+    use_env_variable: 'DATABASE_URL', 
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
@@ -14,6 +21,8 @@ module.exports = {
         rejectUnauthorized: false
       }
     },
-    use_env_variable: 'DATABASE_URL'
-  },
+    logging: false
+  }
 };
+
+module.exports = config;
