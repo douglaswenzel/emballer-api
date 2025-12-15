@@ -1,45 +1,36 @@
-import 'dotenv/config'; 
-import { Sequelize, Dialect } from 'sequelize';
-
-const { DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD, DB_PORT } = process.env;
-
-const dialect: Dialect = 'postgres'; 
+import 'dotenv/config';
+import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize(
-    DB_DATABASE!, 
-    DB_USERNAME!, 
-    DB_PASSWORD!, 
-    {
-        host: DB_HOST!,
-        port: parseInt(DB_PORT!),
-        dialect: dialect,
-        dialectOptions: {
-            ssl: {
-                require: true,
-                rejectUnauthorized: false
-            },
-            keepAlive: true,        
-            connectTimeout: 60000   
-        },
-        logging: false,
-        pool: {
-            max: 10,
-            min: 0,        
-            acquire: 30000,
-            idle: 30000
-        }
-    }
+  process.env.DB_DATABASE!,
+  process.env.DB_USERNAME!,
+  process.env.DB_PASSWORD!,
+  {
+    host: process.env.DB_HOST!,
+    port: Number(process.env.DB_PORT!),
+    dialect: 'postgres',
+    logging: false,
+
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+      keepAlive: true,
+    },
+
+    pool: {
+      max: 3,
+      min: 0,
+      idle: 10000,
+      acquire: 30000,
+    },
+  }
 );
 
-async function connectDB(): Promise<void> {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Conexão com o Render PostgreSQL estabelecida com sucesso!');
-    } catch (error: any) {
-        console.error('❌ ERRO: Não foi possível conectar ao banco de dados PostgreSQL:', error.message);
-    }
+export async function connectDB() {
+  await sequelize.authenticate();
+  console.log('✅ PostgreSQL conectado');
 }
-
-connectDB();
 
 export default sequelize;
